@@ -30,6 +30,6 @@ public class CustomCursorAdapter extends CursorAdapter {
  		// Set the text for each textview (use the position argument to find the appropriate element in the list)
  		firstName.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(1))));
  		lastName.setText(cursor.getString(cursor.getColumnIndex(cursor.getColumnName(2))));
-		
+		// test git!!!!!
 	}
 }
