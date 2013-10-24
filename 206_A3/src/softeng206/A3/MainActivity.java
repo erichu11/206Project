@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,14 +36,17 @@ public class MainActivity extends Activity {
 	private ImageView image;
 	private EditText searchBar;
 	private Builder dialogBuilder;
-
+	ContactDatabaseHelper helper;
+	CustomCursorAdapter adapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//		this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.activity_main);
 		add = (Button) findViewById(R.id.action_add);
 		listView = (ListView) findViewById(R.id.names);
-//		image = (ImageView) findViewById(R.id.contact_photo);
 		searchBar = (EditText) findViewById(R.id.searchBar);
 		spinner = (Spinner) findViewById(R.id.action_sort_spinner);
 
@@ -49,11 +54,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void setUpListView() {
-		
-		ContactDatabaseHelper helper = new ContactDatabaseHelper(this);
-		CustomCursorAdapter adapter = new CustomCursorAdapter(this, helper.getAllData());
+		helper = new ContactDatabaseHelper(this);
+		adapter = new CustomCursorAdapter(this, helper.getAllData());
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(new listItemClickedListener());
+		
 	}
 
 
@@ -92,11 +97,11 @@ public class MainActivity extends Activity {
 	class listItemClickedListener implements AdapterView.OnItemClickListener {
 		public void onItemClick(AdapterView<?> parentView, View childView, int childViewPosition, long id) {
 			
-			
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, SingleContact.class);
 			intent.putExtra("the_key", id);
 			startActivity(intent);
+
 
 		}
 	}
