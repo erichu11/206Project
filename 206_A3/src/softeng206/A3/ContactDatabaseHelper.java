@@ -30,7 +30,8 @@ public class ContactDatabaseHelper extends SQLiteOpenHelper{
 			+ CONTACT_WORKPHONE + " varchar(50),"
 			+ CONTACT_EMAIL + " varchar(50),"
 			+ CONTACT_ADDRESS + " varchar(50),"
-			+ CONTACT_BIRTHDAY + " varchar(50));";
+			+ CONTACT_BIRTHDAY + " varchar(50),"
+			+ CONTACT_BIRTHDAY + " blob);";
 	
 	private static final String SQL_DELETE_CONTACT_TABLE = "DROP TABLE IF EXISTS" + TABLE_CONTACTS;
 	
@@ -88,7 +89,7 @@ public class ContactDatabaseHelper extends SQLiteOpenHelper{
         database.execSQL("DELETE FROM " + this.TABLE_CONTACTS + " WHERE _id = "+ String.valueOf(id));  
     }
 	
-	public void updateRow(long rowId, String first, String last, String mobile, String home, String work, String email, String address, String dob) {
+	public void updateRow(long rowId, String first, String last, String mobile, String home, String work, String email, String address, String birthday) {
 		SQLiteDatabase database = this.getWritableDatabase();
 	      ContentValues args = new ContentValues();
 	      args.put("firstName", first);
@@ -98,7 +99,7 @@ public class ContactDatabaseHelper extends SQLiteOpenHelper{
 	      args.put("workPhone", work);
 	      args.put("address", address);
 	      args.put("email", email);
-	      args.put("birthday", dob);
+	      args.put("birthday", birthday);
 	      
 	      database.update(this.TABLE_CONTACTS, args, "_id=" + rowId, null);
 	}
@@ -107,7 +108,5 @@ public class ContactDatabaseHelper extends SQLiteOpenHelper{
 		String buildSQL = "SELECT * FROM " + this.TABLE_CONTACTS + " ORDER BY " + order;
 		return this.getReadableDatabase().rawQuery(buildSQL, null);
 	}
-	
-	
 
 }
