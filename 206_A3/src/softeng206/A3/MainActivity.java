@@ -1,34 +1,20 @@
 package softeng206.A3;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
-import android.support.v4.app.NavUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private Button add;
@@ -37,6 +23,7 @@ public class MainActivity extends Activity {
 	private ImageView image;
 	private EditText searchBar;
 	private Builder dialogBuilder;
+	private Button addPhoto;
 	ContactDatabaseHelper helper;
 	CustomCursorAdapter adapter;
 	
@@ -48,7 +35,14 @@ public class MainActivity extends Activity {
 		listView = (ListView) findViewById(R.id.names);
 		searchBar = (EditText) findViewById(R.id.searchBar);
 		spinner = (Spinner) findViewById(R.id.action_sort_spinner);
-
+		addPhoto=(Button) findViewById(R.id.add_photo_button);
+//		addPhoto.setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//
+//			}
+//		});
 		setUpListView();
 	}
 
