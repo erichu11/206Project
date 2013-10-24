@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
@@ -42,8 +43,6 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//		this.requestWindowFeature(Window.FEATURE_NO_TITLE); 
 		setContentView(R.layout.activity_main);
 		add = (Button) findViewById(R.id.action_add);
 		listView = (ListView) findViewById(R.id.names);
@@ -70,13 +69,42 @@ public class MainActivity extends Activity {
 			startActivity(intent);
 			return true;
 		case R.id.action_sort_spinner:
-			dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-			dialogBuilder.setTitle("Sort Contacts By");
-			//dialogBuilder.setMessage("Unsaved information will be lost!");
-			
-			dialogBuilder.setNegativeButton("First name", null);
-			dialogBuilder.setNeutralButton("Last name", null);
-			dialogBuilder.setPositiveButton("phone", null);
+
+			AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+			dialogBuilder.setTitle("Sort by: ");
+			dialogBuilder.setSingleChoiceItems(new String[] {"First Name","Last Name","Mobile Phone","Home Phone", "Work Phone"}, -1, 
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					switch(which) {
+					case 0:
+						helper = new ContactDatabaseHelper(MainActivity.this);
+						adapter =  new CustomCursorAdapter(MainActivity.this, helper.order("firstName"));
+						listView.setAdapter(adapter);
+						break;
+					case 1:
+						helper = new ContactDatabaseHelper(MainActivity.this);
+						adapter =  new CustomCursorAdapter(MainActivity.this, helper.order("lastName"));
+						listView.setAdapter(adapter);
+						break;
+					case 2:
+						helper = new ContactDatabaseHelper(MainActivity.this);
+						adapter =  new CustomCursorAdapter(MainActivity.this, helper.order("mobilePhone"));
+						listView.setAdapter(adapter);
+						break;
+					case 3:
+						helper = new ContactDatabaseHelper(MainActivity.this);
+						adapter =  new CustomCursorAdapter(MainActivity.this, helper.order("homePhone"));
+						listView.setAdapter(adapter);
+						break;
+					case 4:
+						helper = new ContactDatabaseHelper(MainActivity.this);
+						adapter =  new CustomCursorAdapter(MainActivity.this, helper.order("workPhone"));
+						listView.setAdapter(adapter);
+						break;
+					}
+					dialog.dismiss();
+				}}); 
+			dialogBuilder.setNegativeButton("Cancel", null);
 			dialogBuilder.setCancelable(true);
 			dialogBuilder.create().show();
 			return true;
